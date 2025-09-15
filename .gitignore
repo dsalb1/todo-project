@@ -20,6 +20,9 @@ media/
 static/
 
 # IDE-specific files (e.g., PyCharm)
+.vscode
+.hostiry/
+.code-workspace
 .idea/
 *.iml
 
