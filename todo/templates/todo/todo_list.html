@@ -3,8 +3,16 @@
     <head>
         <title>ToDo List</title>
     </head>
+    <header>
+        <h1>Your Todos</h1>
+    </header>
     <body>
-        <p>Hi there!</p>
-        <p>It works!</p>
+        {% for todo in todos %}
+           <article>
+                <time>created: {{ todo.created_date }}</time>
+                <h2>{{ todo.title }}</h2>
+                <p>{{ todo.text }}</p>
+           </article>
+        {% endfor %}
     </body>
 </html>
