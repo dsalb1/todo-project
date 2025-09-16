@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>ToDo List</title>
-    </head>
-    <header>
-        <h1>Your Todos</h1>
-    </header>
-    <body>
-        {% for todo in todos %}
-           <article>
-                <time>created: {{ todo.created_date }}</time>
-                <h2>{{ todo.title }}</h2>
-                <p>{{ todo.text }}</p>
-           </article>
-        {% endfor %}
-    </body>
-</html>
+{% extends "todo/base.html" %}
+{% block title %}My ToDos{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Your ToDos</h1>
+        {% include "todo/partials/todo.html" %}
+    </div>
+{% endblock %}

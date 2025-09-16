@@ -1,0 +1,7 @@
+{% for todo in todos %}
+    <article>
+        <h2>{{ todo.title }}</h2>
+        <p>{{ todo.text }}</p>
+        <time>created: {{ todo.created_date }}</time>
+    </article>
+{% endfor %}
