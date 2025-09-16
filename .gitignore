@@ -17,7 +17,6 @@ db.sqlite3
 
 # Media and Static files (if collected/generated locally)
 media/
-static/
 
 # IDE-specific files (e.g., PyCharm)
 .vscode
