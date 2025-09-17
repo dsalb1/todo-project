@@ -1,0 +1,6 @@
+<form class="edit-todo-form" hx-put="/todo/edit/{{ pk }}" hx-target="this" hx-swap="outerHTML">
+    <!-- {% csrf_token %} -->
+    {{ form }}
+    <input class="btn" type="submit" value="Submit" />
+    <!-- <button class="btn" hx-get="/edit/{{ todo.id }}">Cancel</button> -->
+</form>

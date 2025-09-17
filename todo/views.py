@@ -2,10 +2,10 @@ import logging
 
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.http import QueryDict
 from django.urls import reverse
 from rest_framework import permissions, viewsets
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from todo.forms.todo_form import ToDoForm
 from todo.models import ToDo
@@ -15,7 +15,7 @@ from todo.serializers import UserSerializer, ToDoSerializer
 logger = logging.getLogger(__name__)
 
 
-def todo_list(request):
+def todo_listview(request):
     user = request.user
     todos = ToDo.objects.filter(author=user).order_by('-created_date')
     
@@ -37,10 +37,24 @@ def create_todo(request, *args, **kwargs):
                 author=request.user
             )
             new_todo.save()
-            return redirect('todo:todo-list')
+            return redirect('todo:todo-listview')
     else:
         form = ToDoForm()
     return render(request, 'todo/create_todo.html', {'form': form})
+
+
+def edit_todo(request, pk):
+    todo = get_object_or_404(ToDo, pk=pk)
+    if request.method == 'PUT':
+        form = ToDoForm(QueryDict(request.body))
+        if form.is_valid():
+            todo.title = form.cleaned_data["title"]
+            todo.text = form.cleaned_data["text"]
+            todo.save()
+        return render(request, 'todo/partials/todo.html', {'todo': todo})
+    else:
+        form = ToDoForm({'title': todo.title, 'text': todo.text})
+    return render(request, 'todo/edit_todo.html', {'form': form, 'pk': todo.id})
 
 
 class UserViewSet(viewsets.ModelViewSet):

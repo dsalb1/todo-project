@@ -35,18 +35,43 @@ div.container {
 }
 
 article {
+    display: grid;
+    grid-template-columns: 75% 25%;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "todo-title todo-button"
+    "todo-text todo-created";
     padding: 10px 30px;
     border-bottom: 1px #6272a4 solid;
     margin-bottom: 10px;
+    gap: 10px;
 }
 
 h1, article {
     color: white;
 }
 
+article h2 {
+    grid-area: todo-title;
+}
+
+article p {
+    grid-area: todo-text;
+}
+
+article h2,
+article p {
+    margin: 0;
+}
+
+article .inline-edit {
+    grid-area: todo-button;
+}
+
 time {
-    display: block;
-    text-align: right;
+    /* display: block;
+    text-align: right; */
+    grid-area: todo-created;
 }
 
 /* pagination styling */
@@ -73,7 +98,8 @@ time {
 }
 
 /* form styling */
-#create-todo {
+#create-todo-form, 
+.edit-todo-form {
     width: 480px;
     margin: 0 auto;
     color: white;

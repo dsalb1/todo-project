@@ -1,27 +1,8 @@
-{% for todo in todos %}
-    <article>
-        <h2>{{ todo.title }}</h2>
-        <p>{{ todo.text }}</p>
-        <time>created: {{ todo.created_date }}</time>
-    </article>
-{% endfor %}
-
-<div class="pagination">
-    <span class="step-links">
-        {% if todos.has_previous %}
-            <a href="?page={{ todos.previous_page_number }}">&lt;&lt;</a>
-        {% endif %}
-
-        {% for page in range %}
-            {% if page  == todos.number %}
-                <span class="current">{{ page }}</span>
-            {% else %}
-                <a href="?page={{ page }}">{{ page }}</a>
-            {% endif %}
-        {% endfor %}
-
-        {% if todos.has_next %}
-            <a href="?page={{ todos.next_page_number }}">&gt;&gt;</a>
-        {% endif %}
-    </span>
-</div>
+<article hx-target="this" hx-swap="outerHTML">
+    <h2>{{ todo.title }}</h2>
+    <p>{{ todo.text }}</p>
+    <button hx-get="/todo/edit/{{ todo.id }}" class="btn primary inline-edit">
+        edit
+    </button>
+    <time>{{ todo.created_date }}</time>
+</article>
