@@ -1,7 +1,7 @@
 {% extends "todo/base.html" %}
 {% block content %}
 <h1>Create a new Todo</h1>
-<form id="create-todo" method="POST" action="create">
+<form id="create-todo" method="POST" action="/todo/create/">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
