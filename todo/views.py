@@ -1,7 +1,9 @@
+import logging
+
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from todo.forms.todo_form import ToDoForm
 from todo.models import ToDo
-import logging
 
 # Get a logger instance
 logger = logging.getLogger(__name__)
@@ -10,9 +12,15 @@ logger = logging.getLogger(__name__)
 def todo_list(request):
     user = request.user
     todos = ToDo.objects.filter(author=user).order_by('-created_date')
-    return render(request, 'todo/todo_list.html', {'todos': todos})
+    
+    paginator = Paginator(todos, 10) 
 
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
 
+    return render(request, 'todo/todo_list.html', {'todos': page_obj, 'range': range(1, page_obj.paginator.num_pages + 1)})
+
+#TODO add error handling to view
 def create_todo(request, *args, **kwargs):
     if request.method == 'POST':
         form = ToDoForm(request.POST)
