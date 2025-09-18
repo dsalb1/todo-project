@@ -1,4 +1,4 @@
-<form class="edit-todo-form" hx-put="{% url 'todo:edit-todo' pk %}" hx-target="this" hx-swap="outerHTML">
+<form class="edit-todo-form" hx-put="{% url 'todo:edit-todo' pk %}" hx-target="this" hx-swap="outerHTML" autofocus>
     {% csrf_token %}
     <button class="btn cancel" hx-get="{% url 'todo:detail-todo' pk %}">X</button>
     {{ form }}

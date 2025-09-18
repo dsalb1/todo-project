@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.db import models
-from django.utils import timezone
 
 class ToDo(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='todos', on_delete=models.CASCADE)

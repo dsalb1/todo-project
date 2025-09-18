@@ -24,7 +24,13 @@
         <a href="{% url 'todo:create-todo' %}">Create ToDo</a>
       </li>
       <li>
-        <a href="{% url 'todo:list-todo' %}{% querystring is_completed=1 %}">Your Completed ToDos</a>
+        <a href="{% url 'todo:list-todo' %}">View All ToDos</a>
+      </li>
+      <li>
+        <a href="{% url 'todo:list-todo' %}{% querystring is_completed=0 %}">View Open ToDos</a>
+      </li>
+      <li>
+        <a href="{% url 'todo:list-todo' %}{% querystring is_completed=1 %}">View Completed ToDos</a>
       </li>
     </ul>
   </nav>

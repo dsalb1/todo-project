@@ -20,10 +20,14 @@ def todo_listview(request):
     is_completed_todos = request.GET.get('is_completed') 
     todos = ToDo.objects.filter(author=user)
 
-    if is_completed_todos:
+    action = "View All"
+
+    if is_completed_todos == "1":
         todos = todos.filter(is_completed=True)
-    else:
+        action = "View Completed"
+    elif is_completed_todos == "0":
         todos = todos.filter(is_completed=False)
+        action = "View Open"
     
     todos = todos.order_by('-created_at')
     
@@ -31,7 +35,7 @@ def todo_listview(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    title = f'Your {"Completed " if is_completed_todos else ""}ToDos'
+    title = f'{action} ToDos'
 
     return render(request, 'todo/todo_list.html', {
         'todos': page_obj, 

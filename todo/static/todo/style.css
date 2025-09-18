@@ -49,8 +49,11 @@ nav ul {
 }
 
 nav ul li {
-    display: inline;
-    padding: 1em;
+    display: inline-block;
+    padding: .5em;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin: 3px;
 }
 
 nav a {
@@ -134,7 +137,7 @@ time {
 /* form styling */
 #create-todo-form, 
 .edit-todo-form {
-    width: 480px;
+    max-width: 480px;
     margin: 0 auto;
     color: white;
     padding: 40px 0 80px;
@@ -215,6 +218,7 @@ input[type="checkbox"] {
     nav ul li {
         display: block;
         padding: .5em;
+        border: none;
     }
     main {
         grid-column: 2 / 3;
