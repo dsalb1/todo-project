@@ -69,8 +69,7 @@ article .inline-edit {
 }
 
 time {
-    /* display: block;
-    text-align: right; */
+
     grid-area: todo-created;
 }
 
@@ -145,4 +144,16 @@ label {
 button {
   width: 60%;
   margin: 0 auto;
+}
+
+
+label[for="id_is_completed"],
+input[type="checkbox"] {
+    width: unset;
+    display: inline;
+    vertical-align:middle;
+}
+
+input[type="checkbox"] {
+    padding: 5px;
 }

@@ -1,8 +1,8 @@
 <article hx-target="this" hx-swap="outerHTML">
     <h2>{{ todo.title }}</h2>
     <p>{{ todo.text }}</p>
-    <button hx-get="/todo/edit/{{ todo.id }}" class="btn primary inline-edit">
+    <button hx-get="/todo/{{ todo.id }}/edit" class="btn primary inline-edit">
         edit
     </button>
-    <time>{{ todo.created_date }}</time>
+    <time>{{ todo.created_at }}</time>
 </article>

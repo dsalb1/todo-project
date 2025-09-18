@@ -1,6 +1,7 @@
 import logging
 
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import QueryDict
@@ -15,9 +16,10 @@ from todo.serializers import UserSerializer, ToDoSerializer
 logger = logging.getLogger(__name__)
 
 
+@login_required
 def todo_listview(request):
     user = request.user
-    todos = ToDo.objects.filter(author=user).order_by('-created_date')
+    todos = ToDo.objects.filter(author=user).order_by('-created_at')
     
     paginator = Paginator(todos, 10) 
 
@@ -25,6 +27,7 @@ def todo_listview(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'todo/todo_list.html', {'todos': page_obj, 'range': range(1, page_obj.paginator.num_pages + 1)})
+
 
 #TODO add error handling to view
 def create_todo(request, *args, **kwargs):
@@ -34,6 +37,7 @@ def create_todo(request, *args, **kwargs):
             new_todo = ToDo(
                 title=form.cleaned_data["title"], 
                 text=form.cleaned_data["text"], 
+                is_completed=form.cleaned_data["is_completed"],
                 author=request.user
             )
             new_todo.save()
@@ -43,6 +47,11 @@ def create_todo(request, *args, **kwargs):
     return render(request, 'todo/create_todo.html', {'form': form})
 
 
+def todo(request, pk):
+    todo = get_object_or_404(ToDo, pk=pk)
+    return render(request, 'todo/partials/todo.html', {'todo': todo})
+
+
 def edit_todo(request, pk):
     todo = get_object_or_404(ToDo, pk=pk)
     if request.method == 'PUT':
@@ -50,10 +59,11 @@ def edit_todo(request, pk):
         if form.is_valid():
             todo.title = form.cleaned_data["title"]
             todo.text = form.cleaned_data["text"]
+            todo.is_completed = form.cleaned_data["is_completed"]
             todo.save()
         return render(request, 'todo/partials/todo.html', {'todo': todo})
     else:
-        form = ToDoForm({'title': todo.title, 'text': todo.text})
+        form = ToDoForm({'title': todo.title, 'text': todo.text, 'is_completed': todo.is_completed})
     return render(request, 'todo/edit_todo.html', {'form': form, 'pk': todo.id})
 
 
@@ -70,6 +80,6 @@ class ToDoViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows ToDos to be viewed or edited
     """
-    queryset = ToDo.objects.all().order_by('created_date')
+    queryset = ToDo.objects.all().order_by('created_at')
     serializer_class = ToDoSerializer
     permission_classes = [permissions.IsAuthenticated]

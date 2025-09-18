@@ -1,27 +1,32 @@
 {% extends "todo/base.html" %}
 {% block title %}My ToDos{% endblock %}
 {% block content %}
-<h1>Your ToDos</h1>
-{% for todo in todos %}
-    {% include "todo/partials/todo.html" %}
-{% endfor %}
-<div class="pagination">
-    <span class="step-links">
-        {% if todos.has_previous %}
-            <a href="?page={{ todos.previous_page_number }}">&lt;&lt;</a>
-        {% endif %}
-
-        {% for page in range %}
-            {% if page  == todos.number %}
-                <span class="current">{{ page }}</span>
-            {% else %}
-                <a href="?page={{ page }}">{{ page }}</a>
+{% if todos %}
+    <h1>Your ToDos</h1>
+    {% for todo in todos %}
+        {% include "todo/partials/todo.html" %}
+    {% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if todos.has_previous %}
+                <a href="?page={{ todos.previous_page_number }}">&lt;&lt;</a>
             {% endif %}
-        {% endfor %}
 
-        {% if todos.has_next %}
-            <a href="?page={{ todos.next_page_number }}">&gt;&gt;</a>
-        {% endif %}
-    </span>
-</div>
+            {% for page in range %}
+                {% if page  == todos.number %}
+                    <span class="current">{{ page }}</span>
+                {% else %}
+                    <a href="?page={{ page }}">{{ page }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if todos.has_next %}
+                <a href="?page={{ todos.next_page_number }}">&gt;&gt;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endif %}
+{% if not todos %}
+<p>You have no ToDos! Start creating new ToDos <a href="{% url 'todo:create-todo' %}">here</a></p>
+{% endif %}
 {% endblock %}
