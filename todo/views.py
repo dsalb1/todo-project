@@ -5,9 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import QueryDict
-from django.urls import reverse
 from rest_framework import permissions, viewsets
-from rest_framework.response import Response
 from todo.forms.todo_form import ToDoForm
 from todo.models import ToDo
 from todo.serializers import UserSerializer, ToDoSerializer
@@ -19,17 +17,30 @@ logger = logging.getLogger(__name__)
 @login_required
 def todo_listview(request):
     user = request.user
-    todos = ToDo.objects.filter(author=user).order_by('-created_at')
+    is_completed_todos = request.GET.get('is_completed') 
+    todos = ToDo.objects.filter(author=user)
+
+    if is_completed_todos:
+        todos = todos.filter(is_completed=True)
+    else:
+        todos = todos.filter(is_completed=False)
+    
+    todos = todos.order_by('-created_at')
     
     paginator = Paginator(todos, 10) 
-
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'todo/todo_list.html', {'todos': page_obj, 'range': range(1, page_obj.paginator.num_pages + 1)})
+    title = f'Your {"Completed " if is_completed_todos else ""}ToDos'
+
+    return render(request, 'todo/todo_list.html', {
+        'todos': page_obj, 
+        'title': title, 
+        'range': range(1, page_obj.paginator.num_pages + 1)
+    })
 
 
-#TODO add error handling to view
+@login_required
 def create_todo(request, *args, **kwargs):
     if request.method == 'POST':
         form = ToDoForm(request.POST)
@@ -41,17 +52,18 @@ def create_todo(request, *args, **kwargs):
                 author=request.user
             )
             new_todo.save()
-            return redirect('todo:todo-listview')
+            return redirect('todo:list-todo')
     else:
         form = ToDoForm()
     return render(request, 'todo/create_todo.html', {'form': form})
 
 
+@login_required
 def todo(request, pk):
     todo = get_object_or_404(ToDo, pk=pk)
     return render(request, 'todo/partials/todo.html', {'todo': todo})
 
-
+@login_required
 def edit_todo(request, pk):
     todo = get_object_or_404(ToDo, pk=pk)
     if request.method == 'PUT':

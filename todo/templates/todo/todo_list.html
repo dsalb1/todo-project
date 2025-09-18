@@ -2,7 +2,7 @@
 {% block title %}My ToDos{% endblock %}
 {% block content %}
 {% if todos %}
-    <h1>Your ToDos</h1>
+    <h1>{{ title }}</h1>
     {% for todo in todos %}
         {% include "todo/partials/todo.html" %}
     {% endfor %}

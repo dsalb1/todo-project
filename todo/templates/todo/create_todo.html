@@ -1,8 +1,9 @@
 {% extends "todo/base.html" %}
 {% block content %}
 <h1>Create a new Todo</h1>
-<form id="create-todo-form" method="POST" action="/todo/create/">
+<form id="create-todo-form" method="POST" action="{% url 'todo:create-todo' %}">
     {% csrf_token %}
+    <button class="btn cancel" ><a href="{% url 'todo:list-todo' %}">X</a></button>
     {{ form }}
     <input type="submit" value="Submit" />
 </form>

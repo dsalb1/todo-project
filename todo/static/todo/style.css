@@ -1,8 +1,14 @@
+/* header styling */
 header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
     background-color: #282a36;
     padding: 20px 20px 20px 40px;
     margin-top: 0;
     font-size: 24px;
+    grid-column: 1 / 3;
 }
 
 header a {
@@ -11,27 +17,56 @@ header a {
 }
 
 body {
+    display: grid;
+    grid-template-columns: 280px auto;
+    row-gap: 5px;
+    column-gap: 5px;
     margin: 0;
     background-color: #44475a;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+h1, 
+main,
+nav,
+header {
+    background-color: #282a36;
+    border-radius: 5px;
+}
+
+
+/* nav styling */
+nav {
+    grid-column: 1 / 3;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    padding: 1em;
+}
+
+nav a {
+    text-decoration: none;
+    color: #8be9fd;
+}
+
+/* todo list view styling */
 h1 {
     text-align: center;
-    background-color: #282a36;
-    border-radius: 10px;
     padding: 20px 10px 10px;
     margin: 5px;
 }
 
-div.container {
-    background-color: #282a36;
-    border-radius: 10px;
-}
-
-div.container { 
-    margin: 8px auto;
-    max-width: 1028px;
+main { 
+    grid-column: 1 / 3;
 }
 
 article {
@@ -142,7 +177,7 @@ label {
 }
 
 button {
-  width: 60%;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -156,4 +191,32 @@ input[type="checkbox"] {
 
 input[type="checkbox"] {
     padding: 5px;
+}
+
+.cancel {
+    float: right;
+    width: 30px;
+    background-color: rgba(255, 0, 0, 0.51);
+    color: white;
+    cursor: pointer;
+}
+
+.cancel a {
+    text-decoration:none;
+    color: white;
+}
+
+/* responsive styling */
+@media (min-width: 950px) {
+    nav {
+        grid-column: 1;
+        justify-content: center;
+    }
+    nav ul li {
+        display: block;
+        padding: .5em;
+    }
+    main {
+        grid-column: 2 / 3;
+    }
 }

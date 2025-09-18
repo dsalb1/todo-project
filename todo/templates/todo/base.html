@@ -16,10 +16,20 @@
 
 <body hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
   <header>
-    <a href="/todo">The ToDo App</a>
+    <a href="{% url 'todo:list-todo' %}">The ToDo App</a>
   </header>
-  <div class="container">
+  <nav>
+    <ul>
+      <li>
+        <a href="{% url 'todo:create-todo' %}">Create ToDo</a>
+      </li>
+      <li>
+        <a href="{% url 'todo:list-todo' %}{% querystring is_completed=1 %}">Your Completed ToDos</a>
+      </li>
+    </ul>
+  </nav>
+  <main>
      {% block content %}{% endblock %}
-  </div>
+  </main>
 </body>
 </html>
