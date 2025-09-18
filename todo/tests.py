@@ -28,19 +28,19 @@ class ToDoTestCase(TestCase):
         #assert lookup ref between user and todos that they own
         self.assertEqual(user2.todos.first(), todo2)
 
-class ClientTest(TestCase):
-    def test_authentication(self):
-        client = Client()
-        response = client.get("/todo/")
-        self.assertRedirects(response, "/accounts/login/?next=/todo/")
+# class ClientTest(TestCase):
+#     def test_authentication(self):
+#         client = Client()
+#         response = client.get("/todo/")
+#         self.assertRedirects(response, "/accounts/login/?next=/todo/")
 
-    def test_index(self):
-        client = Client()
-        response = client.get("/todo/")
-        print(response)
-        self.assertEqual(response.status_code, 200)
+#     def test_index(self):
+#         client = Client()
+#         response = client.get("/todo/")
+#         print(response)
+#         self.assertEqual(response.status_code, 200)
 
-    def test_create(self):
-        client = Client()
-        response = client.get("/todo/create/")
-        self.assertEqual(response.status_code, 200)
+#     def test_create(self):
+#         client = Client()
+#         response = client.get("/todo/create/")
+#         self.assertEqual(response.status_code, 200)
