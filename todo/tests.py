@@ -28,19 +28,30 @@ class ToDoTestCase(TestCase):
         #assert lookup ref between user and todos that they own
         self.assertEqual(user2.todos.first(), todo2)
 
-# class ClientTest(TestCase):
-#     def test_authentication(self):
-#         client = Client()
-#         response = client.get("/todo/")
-#         self.assertRedirects(response, "/accounts/login/?next=/todo/")
+class ClientTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
 
-#     def test_index(self):
-#         client = Client()
-#         response = client.get("/todo/")
-#         print(response)
-#         self.assertEqual(response.status_code, 200)
+    def test_authentication_required(self):
+        response = self.client.get("/todo/")
+        self.assertRedirects(response, "/accounts/login/?next=/todo/")
 
-#     def test_create(self):
-#         client = Client()
-#         response = client.get("/todo/create/")
-#         self.assertEqual(response.status_code, 200)
+    def test_login_view(self):
+        response = self.client.post('/accounts/login/', {'username': 'testuser', 'password': 'testpassword'})
+        self.assertEqual(response.status_code, 302) # Redirect to success page
+        # Verify the user is authenticated in the session
+        self.assertTrue('_auth_user_id' in self.client.session)
+        self.client.logout()
+
+    def test_index(self):
+        self.client.force_login(self.user)
+        response = self.client.get("/todo/")
+        self.assertEqual(response.status_code, 200)
+        self.client.logout()
+
+    def test_todo_create(self):
+        self.client.force_login(self.user)
+        response = self.client.get("/todo/create/")
+        self.assertEqual(response.status_code, 200)
+        self.client.logout()

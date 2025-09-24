@@ -80,7 +80,7 @@ def edit_todo(request, pk):
         return render(request, 'todo/partials/todo.html', {'todo': todo})
     else:
         form = ToDoForm({'title': todo.title, 'text': todo.text, 'is_completed': todo.is_completed})
-    return render(request, 'todo/edit_todo.html', {'form': form, 'pk': todo.id})
+    return render(request, 'todo/partials/edit_todo.html', {'form': form, 'pk': todo.id})
 
 
 class UserViewSet(viewsets.ModelViewSet):

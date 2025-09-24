@@ -15,6 +15,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,10 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
-
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -41,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'todo',
-    'user'
+    'accounts',
+    'todo'
 ]
 
 MIDDLEWARE = [
@@ -153,7 +152,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -166,3 +168,7 @@ REST_FRAMEWORK = {
 }
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.pythonanywhere.com']
+
+# Authentication
+
+LOGIN_REDIRECT_URL = "/todo"

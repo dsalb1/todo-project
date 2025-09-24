@@ -135,6 +135,7 @@ time {
 }
 
 /* form styling */
+#registration-form,
 #create-todo-form, 
 .edit-todo-form {
     max-width: 480px;
